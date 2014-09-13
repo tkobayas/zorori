@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.kitchensink.data;
+package com.github.tkobayas.zorori.data;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,39 +22,34 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
 import java.util.List;
 
-import org.jboss.as.quickstarts.kitchensink.model.Member;
+import com.github.tkobayas.zorori.model.Book;
 
 @ApplicationScoped
-public class MemberRepository {
+public class BookRepository {
 
     @Inject
     private EntityManager em;
 
-    public Member findById(Long id) {
-        return em.find(Member.class, id);
+    public Book findById(Long id) {
+        return em.find(Book.class, id);
     }
 
-    public Member findByEmail(String email) {
+    public Book findByNum(int num) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
-        Root<Member> member = criteria.from(Member.class);
-        // Swap criteria statements if you would like to try out type-safe criteria queries, a new
-        // feature in JPA 2.0
-        // criteria.select(member).where(cb.equal(member.get(Member_.email), email));
-        criteria.select(member).where(cb.equal(member.get("email"), email));
+        CriteriaQuery<Book> criteria = cb.createQuery(Book.class);
+        Root<Book> book = criteria.from(Book.class);
+        criteria.select(book).where(cb.equal(book.get("num"), num));
         return em.createQuery(criteria).getSingleResult();
     }
 
-    public List<Member> findAllOrderedByName() {
+    public List<Book> findAllOrderedByNum() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
-        Root<Member> member = criteria.from(Member.class);
-        // Swap criteria statements if you would like to try out type-safe criteria queries, a new
-        // feature in JPA 2.0
-        // criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
-        criteria.select(member).orderBy(cb.asc(member.get("name")));
+        CriteriaQuery<Book> criteria = cb.createQuery(Book.class);
+        Root<Book> book = criteria.from(Book.class);
+        criteria.select(book).orderBy(cb.asc(book.get("num")));
         return em.createQuery(criteria).getResultList();
     }
 }

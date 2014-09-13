@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.kitchensink.rest;
+package com.github.tkobayas.zorori.rest;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,18 +40,18 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jboss.as.quickstarts.kitchensink.data.MemberRepository;
-import org.jboss.as.quickstarts.kitchensink.model.Member;
-import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
+import com.github.tkobayas.zorori.data.BookRepository;
+import com.github.tkobayas.zorori.model.Book;
+import com.github.tkobayas.zorori.service.BookRegistration;
 
 /**
  * JAX-RS Example
  * <p/>
- * This class produces a RESTful service to read/write the contents of the members table.
+ * This class produces a RESTful service to read/write the contents of the books table.
  */
-@Path("/members")
+@Path("/books")
 @RequestScoped
-public class MemberResourceRESTService {
+public class BookResourceRESTService {
 
     @Inject
     private Logger log;
@@ -60,44 +60,44 @@ public class MemberResourceRESTService {
     private Validator validator;
 
     @Inject
-    private MemberRepository repository;
+    private BookRepository repository;
 
     @Inject
-    MemberRegistration registration;
+    BookRegistration registration;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Member> listAllMembers() {
-        return repository.findAllOrderedByName();
+    public List<Book> listAllBooks() {
+        return repository.findAllOrderedByNum();
     }
 
     @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Member lookupMemberById(@PathParam("id") long id) {
-        Member member = repository.findById(id);
-        if (member == null) {
+    public Book lookupBookById(@PathParam("id") long id) {
+        Book book = repository.findById(id);
+        if (book == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        return member;
+        return book;
     }
 
     /**
-     * Creates a new member from the values provided. Performs validation, and will return a JAX-RS response with either 200 ok,
+     * Creates a new book from the values provided. Performs validation, and will return a JAX-RS response with either 200 ok,
      * or with a map of fields, and related errors.
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createMember(Member member) {
+    public Response createBook(Book book) {
 
         Response.ResponseBuilder builder = null;
 
         try {
-            // Validates member using bean validation
-            validateMember(member);
+            // Validates book using bean validation
+            validateBook(book);
 
-            registration.register(member);
+            registration.register(book);
 
             // Create an "ok" response
             builder = Response.ok();
@@ -107,7 +107,7 @@ public class MemberResourceRESTService {
         } catch (ValidationException e) {
             // Handle the unique constrain violation
             Map<String, String> responseObj = new HashMap<String, String>();
-            responseObj.put("email", "Email taken");
+            responseObj.put("num", "Num taken");
             builder = Response.status(Response.Status.CONFLICT).entity(responseObj);
         } catch (Exception e) {
             // Handle generic exceptions
@@ -121,29 +121,29 @@ public class MemberResourceRESTService {
 
     /**
      * <p>
-     * Validates the given Member variable and throws validation exceptions based on the type of error. If the error is standard
+     * Validates the given Book variable and throws validation exceptions based on the type of error. If the error is standard
      * bean validation errors then it will throw a ConstraintValidationException with the set of the constraints violated.
      * </p>
      * <p>
-     * If the error is caused because an existing member with the same email is registered it throws a regular validation
+     * If the error is caused because an existing b with the same num is registered it throws a regular validation
      * exception so that it can be interpreted separately.
      * </p>
      * 
-     * @param member Member to be validated
+     * @param book Book to be validated
      * @throws ConstraintViolationException If Bean Validation errors exist
-     * @throws ValidationException If member with the same email already exists
+     * @throws ValidationException If book with the same num already exists
      */
-    private void validateMember(Member member) throws ConstraintViolationException, ValidationException {
+    private void validateBook(Book book) throws ConstraintViolationException, ValidationException {
         // Create a bean validator and check for issues.
-        Set<ConstraintViolation<Member>> violations = validator.validate(member);
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
 
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
         }
 
-        // Check the uniqueness of the email address
-        if (emailAlreadyExists(member.getEmail())) {
-            throw new ValidationException("Unique Email Violation");
+        // Check the uniqueness of the num
+        if (numAlreadyExists(book.getNum())) {
+            throw new ValidationException("Unique Num Violation");
         }
     }
 
@@ -167,19 +167,19 @@ public class MemberResourceRESTService {
     }
 
     /**
-     * Checks if a member with the same email address is already registered. This is the only way to easily capture the
-     * "@UniqueConstraint(columnNames = "email")" constraint from the Member class.
+     * Checks if a book with the same num is already registered. This is the only way to easily capture the
+     * "@UniqueConstraint(columnNames = "num")" constraint from the Book class.
      * 
-     * @param email The email to check
-     * @return True if the email already exists, and false otherwise
+     * @param num The num to check
+     * @return True if the num already exists, and false otherwise
      */
-    public boolean emailAlreadyExists(String email) {
-        Member member = null;
+    public boolean numAlreadyExists(int num) {
+        Book book = null;
         try {
-            member = repository.findByEmail(email);
+            book = repository.findByNum(num);
         } catch (NoResultException e) {
             // ignore
         }
-        return member != null;
+        return book != null;
     }
 }

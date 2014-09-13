@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.kitchensink.data;
+package com.github.tkobayas.zorori.data;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -23,32 +23,33 @@ import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import java.util.List;
 
-import org.jboss.as.quickstarts.kitchensink.model.Member;
+import com.github.tkobayas.zorori.model.Book;
 
 @RequestScoped
-public class MemberListProducer {
+public class BookListProducer {
 
     @Inject
-    private MemberRepository memberRepository;
+    private BookRepository bookRepository;
 
-    private List<Member> members;
+    private List<Book> books;
 
-    // @Named provides access the return value via the EL variable name "members" in the UI (e.g.
+    // @Named provides access the return value via the EL variable name "books" in the UI (e.g.
     // Facelets or JSP view)
     @Produces
     @Named
-    public List<Member> getMembers() {
-        return members;
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
-        retrieveAllMembersOrderedByName();
+    public void onBookListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Book book) {
+        retrieveAllMembersOrderedByNum();
     }
 
     @PostConstruct
-    public void retrieveAllMembersOrderedByName() {
-        members = memberRepository.findAllOrderedByName();
+    public void retrieveAllMembersOrderedByNum() {
+        books = bookRepository.findAllOrderedByNum();
     }
 }

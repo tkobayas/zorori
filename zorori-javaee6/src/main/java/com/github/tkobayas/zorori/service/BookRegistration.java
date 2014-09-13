@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.kitchensink.service;
+package com.github.tkobayas.zorori.service;
 
-import org.jboss.as.quickstarts.kitchensink.model.Member;
+import com.github.tkobayas.zorori.model.Book;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+
 import java.util.logging.Logger;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
-public class MemberRegistration {
+public class BookRegistration {
 
     @Inject
     private Logger log;
@@ -35,11 +36,11 @@ public class MemberRegistration {
     private EntityManager em;
 
     @Inject
-    private Event<Member> memberEventSrc;
+    private Event<Book> bookEventSrc;
 
-    public void register(Member member) throws Exception {
-        log.info("Registering " + member.getName());
-        em.persist(member);
-        memberEventSrc.fire(member);
+    public void register(Book book) throws Exception {
+        log.info("Registering " + book.getTitle());
+        em.persist(book);
+        bookEventSrc.fire(book);
     }
 }

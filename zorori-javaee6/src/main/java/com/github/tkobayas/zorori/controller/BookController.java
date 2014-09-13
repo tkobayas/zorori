@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.kitchensink.controller;
+package com.github.tkobayas.zorori.controller;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
@@ -24,37 +24,37 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.jboss.as.quickstarts.kitchensink.model.Member;
-import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
+import com.github.tkobayas.zorori.model.Book;
+import com.github.tkobayas.zorori.service.BookRegistration;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://www.cdi-spec.org/faq/#accordion6
 @Model
-public class MemberController {
+public class BookController {
 
     @Inject
     private FacesContext facesContext;
 
     @Inject
-    private MemberRegistration memberRegistration;
+    private BookRegistration bookRegistration;
 
     @Produces
     @Named
-    private Member newMember;
+    private Book newBook;
 
     @PostConstruct
-    public void initNewMember() {
-        newMember = new Member();
+    public void initNewBook() {
+        newBook = new Book();
     }
 
     public void register() throws Exception {
         try {
-            memberRegistration.register(newMember);
+            bookRegistration.register(newBook);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
-            initNewMember();
+            initNewBook();
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration unsuccessful");

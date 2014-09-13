@@ -22,36 +22,32 @@
     template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h2>ゾロリ</h2>
-        <h:panelGroup rendered="#{empty members}">
+        <h:panelGroup rendered="#{empty books}">
             <em>No registered books.</em>
         </h:panelGroup>
-        <h:dataTable var="_member" value="#{members}"
-            rendered="#{not empty members}"
+        <h:dataTable var="_book" value="#{books}"
+            rendered="#{not empty books}"
             styleClass="simpletablestyle">
             <h:column>
                 <f:facet name="header">Id</f:facet>
-                #{_member.id}
+                #{_book.id}
             </h:column>
             <h:column>
-                <f:facet name="header">Name</f:facet>
-                #{_member.name}
+                <f:facet name="header">巻</f:facet>
+                #{_book.num}
             </h:column>
             <h:column>
-                <f:facet name="header">Email</f:facet>
-                #{_member.email}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Phone #</f:facet>
-                #{_member.phoneNumber}
+                <f:facet name="header">題名</f:facet>
+                #{_book.title}
             </h:column>
             <h:column>
                 <f:facet name="header">REST URL</f:facet>
                 <a
-                    href="#{request.contextPath}/rest/members/#{_member.id}">/rest/members/#{_member.id}</a>
+                    href="#{request.contextPath}/rest/books/#{_book.id}">/rest/books/#{_book.id}</a>
             </h:column>
             <f:facet name="footer">
-            REST URL for all members: <a
-                    href="#{request.contextPath}/rest/members">/rest/members</a>
+            REST URL for all books: <a
+                    href="#{request.contextPath}/rest/books">/rest/books</a>
             </f:facet>
         </h:dataTable>
         
@@ -60,24 +56,19 @@
         <h:form id="reg">
             <h2>本登録</h2>
             <h:panelGrid columns="3" columnClasses="titleCell">
-                <h:outputLabel for="name" value="Name:" />
-                <h:inputText id="name" value="#{newMember.name}" />
-                <h:message for="name" errorClass="invalid" />
+                <h:outputLabel for="num" value="巻:" />
+                <h:inputText id="num" value="#{newBook.num}" />
+                <h:message for="num" errorClass="invalid" />
 
-                <h:outputLabel for="email" value="Email:" />
-                <h:inputText id="email" value="#{newMember.email}" />
-                <h:message for="email" errorClass="invalid" />
-
-                <h:outputLabel for="phoneNumber" value="Phone #:" />
-                <h:inputText id="phoneNumber"
-                    value="#{newMember.phoneNumber}" />
-                <h:message for="phoneNumber" errorClass="invalid" />
+                <h:outputLabel for="title" value="題名:" />
+                <h:inputText id="title" value="#{newBook.title}" />
+                <h:message for="title" errorClass="invalid" />
             </h:panelGrid>
 
             <p>
                 <h:panelGrid columns="2">
                     <h:commandButton id="register"
-                        action="#{memberController.register}"
+                        action="#{bookController.register}"
                         value="Register" styleClass="register" />
                     <h:messages styleClass="messages"
                         errorClass="invalid" infoClass="valid"
