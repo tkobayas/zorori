@@ -25,6 +25,11 @@
         <h:panelGroup rendered="#{empty books}">
             <em>No registered books.</em>
         </h:panelGroup>
+		<p>
+			<h:messages styleClass="messages" errorClass="invalid"
+				infoClass="valid" warnClass="warning" globalOnly="true" />
+		</p>
+		<h:form id="update">
         <h:dataTable var="_book" value="#{books}"
             rendered="#{not empty books}"
             styleClass="simpletablestyle">
@@ -40,7 +45,15 @@
                 <f:facet name="header">題名</f:facet>
                 #{_book.title}
             </h:column>
-            <h:column>
+			<h:column>
+				<f:facet name="header">所持</f:facet>
+                <h:selectBooleanCheckbox value="#{_book.owned}" />
+            </h:column>
+			<h:column>
+				<f:facet name="header">既読</f:facet>
+                <h:selectBooleanCheckbox value="#{_book.read}" />
+            </h:column>
+			<h:column>
                 <f:facet name="header">REST URL</f:facet>
                 <a
                     href="#{request.contextPath}/rest/books/#{_book.id}">/rest/books/#{_book.id}</a>
@@ -50,6 +63,15 @@
                     href="#{request.contextPath}/rest/books">/rest/books</a>
             </f:facet>
         </h:dataTable>
+
+			<p>
+				<h:panelGrid columns="1">
+					<h:commandButton id="update" action="#{bookController.update}"
+						value="Update" styleClass="register" />
+				</h:panelGrid>
+			</p>
+
+		</h:form>
         
         <p/>
         
@@ -63,16 +85,21 @@
                 <h:outputLabel for="title" value="題名:" />
                 <h:inputText id="title" value="#{newBook.title}" />
                 <h:message for="title" errorClass="invalid" />
-            </h:panelGrid>
+
+				<h:outputLabel for="owned" value="所持:" />
+				<h:selectBooleanCheckbox id="owned" value="#{newBook.owned}" />
+				<h:message for="owned" errorClass="invalid" />
+
+				<h:outputLabel for="read" value="既読:" />
+				<h:selectBooleanCheckbox id="read" value="#{newBook.read}" />
+				<h:message for="read" errorClass="invalid" />
+			</h:panelGrid>
 
             <p>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="1">
                     <h:commandButton id="register"
                         action="#{bookController.register}"
                         value="Register" styleClass="register" />
-                    <h:messages styleClass="messages"
-                        errorClass="invalid" infoClass="valid"
-                        warnClass="warning" globalOnly="true" />
                 </h:panelGrid>
             </p>
         </h:form>

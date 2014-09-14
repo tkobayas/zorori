@@ -16,6 +16,8 @@
  */
 package com.github.tkobayas.zorori.controller;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
@@ -44,6 +46,9 @@ public class BookController {
     @Named
     private Book newBook;
 
+    @Inject
+    private List<Book> books;
+    
     @PostConstruct
     public void initNewBook() {
         newBook = new Book();
@@ -52,12 +57,27 @@ public class BookController {
     public void register() throws Exception {
         try {
             bookRegistration.register(newBook);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
+            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "本を登録しました", "Registration successful");
             facesContext.addMessage(null, m);
             initNewBook();
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration unsuccessful");
+            facesContext.addMessage(null, m);
+        }
+    }
+    
+    public void update() throws Exception {
+        try {
+            for (Book book : books) {
+                bookRegistration.update(book);
+            }
+            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "本のステータスを更新しました", "Update successful");
+            facesContext.addMessage(null, m);
+            initNewBook();
+        } catch (Exception e) {
+            String errorMessage = getRootErrorMessage(e);
+            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Update unsuccessful");
             facesContext.addMessage(null, m);
         }
     }

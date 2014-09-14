@@ -18,6 +18,7 @@ package com.github.tkobayas.zorori.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -43,6 +44,12 @@ public class Book implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
     private String title;
+    
+    @NotNull
+    private boolean owned;
+    
+    @NotNull
+    private boolean read;
 
     public Long getId() {
         return id;
@@ -66,6 +73,27 @@ public class Book implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isOwned() {
+        return owned;
+    }
+
+    public void setOwned(boolean owned) {
+        this.owned = owned;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
+    @Override
+    public String toString() {
+        return "Book [id=" + id + ", num=" + num + ", title=" + title + ", owned=" + owned + ", read=" + read + "]";
     }
 
 }

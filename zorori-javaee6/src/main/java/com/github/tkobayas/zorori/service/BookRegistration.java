@@ -40,7 +40,14 @@ public class BookRegistration {
 
     public void register(Book book) throws Exception {
         log.info("Registering " + book.getTitle());
+        System.out.println(book.getId());
         em.persist(book);
+        System.out.println(book.getId());
         bookEventSrc.fire(book);
+    }
+    
+    public void update(Book book) throws Exception {
+        log.info("Updating " + book.getTitle());
+        em.merge(book);
     }
 }
