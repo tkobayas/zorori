@@ -54,16 +54,18 @@ public class BookController {
         newBook = new Book();
     }
 
-    public void register() throws Exception {
+    public String register() throws Exception {
         try {
             bookRegistration.register(newBook);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "本を登録しました", "Registration successful");
+            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "本を登録しました : " + newBook, "Registration successful");
             facesContext.addMessage(null, m);
             initNewBook();
+            return "index.xhtml";
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration unsuccessful");
             facesContext.addMessage(null, m);
+            return "master.xhtml";
         }
     }
     

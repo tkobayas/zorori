@@ -21,52 +21,39 @@
     xmlns:h="http://java.sun.com/jsf/html"
     template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
-        <h2>一覧</h2>
-        <h:panelGroup rendered="#{empty books}">
-            <em>No registered books.</em>
-        </h:panelGroup>
+        <h2>マスタ</h2>
 		<p>
 			<h:messages styleClass="messages" errorClass="invalid"
 				infoClass="valid" warnClass="warning" globalOnly="true" />
 		</p>
-		<h:form>
-        <h:dataTable id="booktable" var="_book" value="#{books}"
-            rendered="#{not empty books}"
-            styleClass="simpletablestyle">
-<!--             <h:column> -->
-<!--                 <f:facet name="header">Id</f:facet> -->
-<!--                 #{_book.id} -->
-<!--             </h:column> -->
-            <h:column>
-                <f:facet name="header">巻</f:facet>
-                #{_book.num}
-            </h:column>
-            <h:column>
-                <f:facet name="header">題名</f:facet>
-                #{_book.title}
-            </h:column>
-			<h:column>
-				<f:facet name="header">所持</f:facet>
-				<h:selectBooleanCheckbox value="#{_book.owned}" />
-			</h:column>
-			<h:column>
-				<f:facet name="header">既読</f:facet>
-				<h:selectBooleanCheckbox value="#{_book.read}" />
-			</h:column>
+        
+        <h:form id="reg">
+            <h2>本登録</h2>
+            <h:panelGrid columns="3" columnClasses="titleCell">
+                <h:outputLabel for="num" value="巻:" />
+                <h:inputText id="num" value="#{newBook.num}" />
+                <h:message for="num" errorClass="invalid" />
 
-			</h:dataTable>
+                <h:outputLabel for="title" value="題名:" />
+                <h:inputText id="title" value="#{newBook.title}" />
+                <h:message for="title" errorClass="invalid" />
 
-        <p/>
+				<h:outputLabel for="owned" value="所持:" />
+				<h:selectBooleanCheckbox id="owned" value="#{newBook.owned}" />
+				<h:message for="owned" errorClass="invalid" />
 
-		<p>
-			<h:panelGrid columns="1">
-				<h:commandButton id="update"
-					action="#{bookController.update}" value="Update"
-					styleClass="register" />
+				<h:outputLabel for="read" value="既読:" />
+				<h:selectBooleanCheckbox id="read" value="#{newBook.read}" />
+				<h:message for="read" errorClass="invalid" />
 			</h:panelGrid>
-		</p>
 
-		</h:form>
-
+            <p>
+                <h:panelGrid columns="1">
+                    <h:commandButton id="register"
+                        action="#{bookController.register}"
+                        value="Register" styleClass="register" />
+                </h:panelGrid>
+            </p>
+        </h:form>
     </ui:define>
 </ui:composition>

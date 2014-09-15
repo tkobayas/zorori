@@ -62,6 +62,12 @@ body {
   float: right;
   padding-right: 10px;
 }
+#menu {
+  clear: both;
+  text-align: center;
+  color: #666666;
+  font-size: 1.1em;
+}
 #footer {
   clear: both;
   text-align: center;
@@ -100,12 +106,7 @@ span.invalid {
   padding-left: 3px;
   color: red;
 }
-form {
-  padding: 1em;
-  font: 80%/1 sans-serif;
-  width: 375px;
-  border: 1px solid #D5D5D5;
-}
+
 label {
   float: left;
   width: 15%;

@@ -39,15 +39,13 @@ public class BookRegistration {
     private Event<Book> bookEventSrc;
 
     public void register(Book book) throws Exception {
-        log.info("Registering " + book.getTitle());
-        System.out.println(book.getId());
+        log.info("Registering " + book);
         em.persist(book);
-        System.out.println(book.getId());
         bookEventSrc.fire(book);
     }
     
     public void update(Book book) throws Exception {
-        log.info("Updating " + book.getTitle());
+        log.info("Updating " + book);
         em.merge(book);
     }
 }

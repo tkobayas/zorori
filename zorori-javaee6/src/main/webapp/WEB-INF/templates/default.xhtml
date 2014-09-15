@@ -20,14 +20,18 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-    <title>ゾロリ</title>
+    <title>持ってるゾロリ本確認Webアプリ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <h:outputStylesheet name="css/screen.css" />
 </h:head>
 <h:body>
     <div id="container">
 
-        <div id="content">
+		<div id="menu">
+			<p><a href="index.jsf">index</a>&nbsp;|&nbsp;<a href="master.jsf">master</a></p>
+		</div>
+
+		<div id="content">
             <ui:insert name="content">
                     [Template content will be inserted here]
          </ui:insert>
