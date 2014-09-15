@@ -66,5 +66,7 @@ insert into Book (id, num, title, owned, read) values (47, 48, 'かいけつゾ�
 insert into Book (id, num, title, owned, read) values (50, 51, 'かいけつゾロリのメカメカ大さくせん', true, true)
 insert into Book (id, num, title, owned, read) values (51, 52, 'かいけつゾロリなぞのスパイとチョコレート', true, true)
 insert into Book (id, num, title, owned, read) values (52, 53, 'かいけつゾロリなぞのスパイと100本のバラ', true, true)
+insert into Book (id, num, title, owned, read) values (53, 54, 'かいけつゾロリのまほうのランプ～ッ', true, true)
+insert into Book (id, num, title, owned, read) values (54, 55, 'かいけつゾロリの大まじんをさがせ！！', true, true)
 
-ALTER SEQUENCE hibernate_sequence RESTART WITH 53;
+ALTER SEQUENCE hibernate_sequence RESTART WITH 55;
